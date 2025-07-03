@@ -1,7 +1,7 @@
 import { Form } from "../../Components/form";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "../../Hooks/useForm";
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { Dayjs } from "dayjs";
 import { MaskedInput } from "../../Components/maskedInput";
@@ -9,6 +9,8 @@ import api from "../../services/api";
 import { useEffect } from "react";
 import { useNotification } from "../../Hooks/useNotification";
 import { NotificationAlert } from "../../Components/NotificationAlert";
+import { AboutSection } from "../../Components/aboutSection";
+import { Haeder } from "../../Components/header";
 
 export function Sing() {
   const navigate = useNavigate();
@@ -51,7 +53,9 @@ export function Sing() {
     }
   }, [values.nome, setFieldValue]);
 
-  const handleLoginSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleRegisterSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
 
     try {
@@ -85,138 +89,155 @@ export function Sing() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="md:bg-white w-full max-w-md p-8 md:min-w-full">
-        <div className="md:text-4xl text-2xl font-bold mb-2 text-[#1e0e4b] text-center">
-          Bem vindo ao <span className="text-[#7747ff]">BarbeShop</span>
+    <>
+      <Haeder title="Home" link="/"/> {/* Corrigi o nome aqui :) */}
+      <NotificationAlert {...notification} onClose={hideNotification} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 min-h-screen font-sans">
+        {/* Coluna 1: Formulário */}
+        <div className="bg-gray-50 dark:bg-gray-950 flex flex-col justify-center items-center p-6 sm:p-8">
+          <div className="w-full max-w-2xl">
+            {/* Cabeçalho */}
+            <div className="text-center mb-8">
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
+                Bem vindo ao <span className="text-[#7747ff]">BarberShop</span>
+              </h1>
+              <p className="mt-2 text-gray-600 dark:text-gray-400">
+                Crie sua conta para agendar seu próximo corte.
+              </p>
+            </div>
+
+            {/* Formulário */}
+            <Form onSubmit={handleRegisterSubmit}>
+              {/* As classes de layout do grid continuam aqui, perfeitas! */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+                {/* REMOVEMOS as 'className' e confiamos nas props do MUI */}
+                <TextField
+                  name="nome"
+                  label="Nome Completo"
+                  value={values.nome}
+                  onChange={handleChange}
+                  required
+                  fullWidth
+                  variant="outlined"
+                  className="  border-gray-300 dark:border-gray-600 h-full rounded-sm dark:bg-gray-700 text-sm w-full font-normal leading-[18px] text-gray-900 dark:text-white tracking-[0px] appearance-none block  m-0 p-[11px] focus:ring-2 ring-offset-2 ring-violet-500 dark:ring-offset-gray-900"
+                />
+                <TextField
+                  name="login"
+                  label="Login de acesso"
+                  value={values.login}
+                  onChange={handleChange}
+                  required
+                  fullWidth
+                  variant="outlined"
+                  className="  border-gray-300 dark:border-gray-600 h-full rounded-sm dark:bg-gray-700 text-sm w-full font-normal leading-[18px] text-gray-900 dark:text-white tracking-[0px] appearance-none block  m-0 p-[11px] focus:ring-2 ring-offset-2 ring-violet-500 dark:ring-offset-gray-900"
+                />
+                <TextField
+                  name="email"
+                  label="Email"
+                  type="email"
+                  value={values.email}
+                  onChange={handleChange}
+                  required
+                  fullWidth
+                  variant="outlined"
+                  // A classe de layout do grid continua, pois ela se aplica ao container do TextField
+                  className="  border-gray-300 dark:border-gray-600 h-full rounded-sm dark:bg-gray-700 text-sm w-full font-normal leading-[18px] text-gray-900 dark:text-white tracking-[0px] appearance-none block  m-0 p-[11px] focus:ring-2 ring-offset-2 ring-violet-500 dark:ring-offset-gray-900"
+                />
+                <DatePicker
+                  label="Data de Nascimento"
+                  value={values.dataNascimento}
+                  onChange={(newDate) =>
+                    setFieldValue("dataNascimento", newDate)
+                  }
+                  format="DD/MM/YYYY"
+                  // O slotProps já passa as props corretas para o TextField interno
+                  slotProps={{
+                    textField: {
+                      fullWidth: true,
+                      required: true,
+                      variant: "outlined",
+                    },
+                  }}
+                  className="  border-gray-300 dark:border-gray-600 h-full rounded-sm dark:bg-gray-700 text-sm w-full font-normal leading-[18px] text-gray-900 dark:text-white tracking-[0px] appearance-none block  m-0 p-[11px] focus:ring-2 ring-offset-2 ring-violet-500 dark:ring-offset-gray-900"
+                />
+                <MaskedInput
+                  name="cpf"
+                  label="CPF"
+                  value={values.cpf}
+                  onChange={handleChange}
+                  required
+                  fullWidth
+                  variant="outlined"
+                  mask="000.000.000-00"
+                  className="  border-gray-300 dark:border-gray-600 h-full rounded-sm dark:bg-gray-700 text-sm w-full font-normal leading-[18px] text-gray-900 dark:text-white tracking-[0px] appearance-none block  m-0 p-[11px] focus:ring-2 ring-offset-2 ring-violet-500 dark:ring-offset-gray-900"
+                />
+                <MaskedInput
+                  name="telefone"
+                  label="Telefone"
+                  value={values.telefone}
+                  onChange={handleChange}
+                  required
+                  fullWidth
+                  variant="outlined"
+                  mask="(00) 00000-0000"
+                  className="  border-gray-300 dark:border-gray-600 h-full rounded-sm dark:bg-gray-700 text-sm w-full font-normal leading-[18px] text-gray-900 dark:text-white tracking-[0px] appearance-none block  m-0 p-[11px] focus:ring-2 ring-offset-2 ring-violet-500 dark:ring-offset-gray-900"
+                />
+                <TextField
+                  name="senha"
+                  label="Senha"
+                  type="password"
+                  value={values.senha}
+                  onChange={handleChange}
+                  required
+                  fullWidth
+                  variant="outlined"
+                  className="  border-gray-300 dark:border-gray-600 h-full rounded-sm dark:bg-gray-700 text-sm w-full font-normal leading-[18px] text-gray-900 dark:text-white tracking-[0px] appearance-none block  m-0 p-[11px] focus:ring-2 ring-offset-2 ring-violet-500 dark:ring-offset-gray-900"
+                />
+                <TextField
+                  name="confirmarSenha"
+                  label="Confirmar Senha"
+                  type="password"
+                  value={values.confirmarSenha}
+                  onChange={handleChange}
+                  required
+                  fullWidth
+                  variant="outlined"
+                  className="  border-gray-300 dark:border-gray-600 h-full rounded-sm dark:bg-gray-700 text-sm w-full font-normal leading-[18px] text-gray-900 dark:text-white tracking-[0px] appearance-none block  m-0 p-[11px] focus:ring-2 ring-offset-2 ring-violet-500 dark:ring-offset-gray-900"
+                />
+              </div>
+
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
+                size="large"
+                sx={{
+                  mt: 4, // margin-top
+                  py: 1.5, // padding vertical
+                  fontSize: "1rem",
+                  fontWeight: "600",
+                  bgcolor: "#7747ff", // Cor de fundo principal
+                  "&:hover": { bgcolor: "#5d3dcc" }, // Cor no hover
+                }}
+              >
+                Cadastrar
+              </Button>
+
+              <div className="text-sm text-center mt-6 text-gray-600 dark:text-gray-400">
+                Já possui uma conta?{" "}
+                <Link
+                  to={"/login"}
+                  className="font-semibold text-[#7747ff] hover:underline"
+                >
+                  Faça seu login!
+                </Link>
+              </div>
+            </Form>
+          </div>
         </div>
-        <div className="md:text-2xl text-sm font-normal mb-4 text-center text-[#1e0e4b]">
-          Faça seu cadastro
-        </div>
-        <Form onSubmit={handleLoginSubmit}>
-          <div className="flex flex-col gap-4 md:flex-row ">
-            <TextField
-              name="nome"
-              label="Nome Completo"
-              variant="outlined"
-              fullWidth
-              value={values.nome}
-              onChange={handleChange}
-              required
-            />
-            <TextField
-              name="login"
-              label="Login de acesso"
-              variant="outlined"
-              fullWidth
-              value={values.login}
-              onChange={handleChange}
-              required
-            />
-          </div>
 
-          <div className="flex flex-col gap-4 md:flex-row">
-            <TextField
-              name="email"
-              label="Email"
-              type="email"
-              variant="outlined"
-              fullWidth
-              value={values.email}
-              onChange={handleChange}
-              required
-            />
-           
-            <DatePicker
-              label="Data de Nascimento"
-              value={values.dataNascimento}
-              onChange={(newDate) => setFieldValue("dataNascimento", newDate)}
-              format="DD/MM/YYYY"
-              slotProps={{
-                textField: {
-                  fullWidth: true,
-                  variant: "outlined",
-                  required: true,
-                },
-              }}
-            />
-          </div>
-
-          <div className="flex flex-col gap-4 md:flex-row">
-            <MaskedInput
-              name="cpf"
-              label="CPF"
-              variant="outlined"
-              fullWidth
-              value={values.cpf}
-              onChange={handleChange}
-              required
-              mask="000.000.000-00"
-            />
-            <MaskedInput
-              name="telefone"
-              label="Telefone"
-              variant="outlined"
-              fullWidth
-              value={values.telefone}
-              onChange={handleChange}
-              required
-              mask="(00) 00000-0000"
-            />
-          </div>
-
-          <div className="flex flex-col gap-4 md:flex-row">
-            <TextField
-              name="senha"
-              label="Senha"
-              type="password"
-              variant="outlined"
-              fullWidth
-              value={values.senha}
-              onChange={handleChange}
-              required
-            />
-            <TextField
-              name="confirmarSenha"
-              label="Confirmar Senha"
-              type="password"
-              variant="outlined"
-              fullWidth
-              value={values.confirmarSenha}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="flex justify-end">
-            <a className="md:text-lg  text-sm text-[#7747ff]" href="#">
-              Esqueceu sua senha?
-            </a>
-          </div>
-
-          <button
-            type="submit"
-            className="md:text-lg  md:font-bold bg-[#7747ff] w-full md:w-1/12 mt-4 px-6 py-2 rounded text-white text-sm font-normal"
-          >
-            Cadastrar
-          </button>
-        </Form>
-        <div className="md:text-lg text-sm text-center mt-[1.6rem] text-black">
-          Já possui uma conta?{" "}
-          <Link to={"/login"} className="md:text-base text-sm text-[#7747ff]">
-            Faça seu login!{" "}
-          </Link>
-        </div>
+        <AboutSection title="Comece sua Jornada de Estilo" subTitle="Mais que uma Barbearia, uma Experiência." description="Fundada em 2015, a BarberShop nasceu da paixão pela barbearia clássica e o desejo de criar um espaço onde homens pudessem não apenas cuidar do visual, mas também relaxar, conversar e se desconectar da rotina. Combinamos técnicas tradicionais com as últimas tendências para entregar um serviço de excelência." imgSrc="src/assets/img-login.jpg"/>
       </div>
-      <div>
-        <NotificationAlert
-          open={notification.open}
-          onClose={hideNotification}
-          severity={notification.severity}
-          title={notification.title}
-          message={notification.message}
-        />
-      </div>
-    </div>
+    </>
   );
 }

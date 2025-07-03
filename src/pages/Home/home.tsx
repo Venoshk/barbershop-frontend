@@ -1,43 +1,16 @@
-import { useTheme } from "../../contexts/ThemeContext";
 
-import Brightness4Icon from "@mui/icons-material/Brightness4";
-import Brightness7Icon from "@mui/icons-material/Brightness7";
-import { Button, IconButton } from "@mui/material";
+import { Button } from "@mui/material";
 import ContentCutIcon from "@mui/icons-material/ContentCut";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
+import { Haeder } from "../../Components/header";
 
-
-function Navbar() {
-  const { theme, toggleTheme } = useTheme();
-
-  return (
-    <header className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
-      <nav className="container mx-auto px-6 py-3 flex justify-between items-center">
-        <h1 className="text-xl font-bold text-[#1e0e4b] dark:text-white">
-          BarberShop
-        </h1>
-        <div className="flex items-center gap-4">
-          <a
-            href="/login"
-            className="text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-[#7747ff]"
-          >
-            Login
-          </a>
-          <IconButton onClick={toggleTheme} color="inherit">
-            {theme === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
-          </IconButton>
-        </div>
-      </nav>
-    </header>
-  );
-}
 
 // Componente da Página Principal
 export function Home() {
   return (
     // A cor de fundo e do texto de toda a página muda aqui
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
-      <Navbar />
+      <Haeder title="Login" link="/login"/>
 
       <main>
         <section className="relative h-[60vh] flex items-center justify-center text-white text-center bg-[url('https://images.unsplash.com/photo-1599351234873-140d626171a0?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center">
