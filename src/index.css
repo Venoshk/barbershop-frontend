@@ -1,2 +1,14 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none; /* Para Chrome, Safari e outros navegadores WebKit */
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;  /* Para Internet Explorer e Edge */
+}
+
+body{
+    overflow: hidden;
+}

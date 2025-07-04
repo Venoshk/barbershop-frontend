@@ -46,7 +46,7 @@ export function Login() {
     <>
       <Haeder title="Home" link="/"/>
 
-      <main className=" grid grid-cols-1 md:grid-cols-2 min-h-screen w-full">
+      <main className=" grid grid-cols-1 md:grid-cols-2 min-h-screen w-full ">
         {/* Coluna 1: O Formulário */}
         <div className="bg-gray-50 dark:bg-gray-900 flex flex-col justify-center items-center p-8">
           {/* Adicione o componente de Alerta aqui */}

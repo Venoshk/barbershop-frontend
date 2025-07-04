@@ -1,6 +1,6 @@
-import React from 'react';
-import { IMaskInput } from 'react-imask';
-import { TextField, type TextFieldProps } from '@mui/material';
+import React from "react";
+import { IMaskInput } from "react-imask";
+import { TextField, type TextFieldProps } from "@mui/material";
 
 // Definimos as props que nosso componente de máscara vai aceitar
 interface CustomProps {
@@ -19,14 +19,16 @@ const TextMaskAdapter = React.forwardRef<HTMLInputElement, CustomProps>(
         {...other}
         mask={mask} // A máscara é aplicada aqui
         definitions={{
-          '#': /[1-9]/, // Define que o '#' na máscara aceita números de 1 a 9
+          "#": /[1-9]/, // Define que o '#' na máscara aceita números de 1 a 9
         }}
         inputRef={ref}
-        onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
+        onAccept={(value: any) =>
+          onChange({ target: { name: props.name, value } })
+        }
         overwrite
       />
     );
-  },
+  }
 );
 
 // Este é o componente final que você usará no seu formulário
@@ -44,7 +46,7 @@ export function MaskedInput({ mask, ...props }: MaskedInputProps) {
         // Passamos a máscara e outras props para o nosso adapter
         inputProps: {
           mask: mask,
-        }
+        },
       }}
     />
   );
