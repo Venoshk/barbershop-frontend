@@ -10,9 +10,17 @@ import { BarberCard } from "../../Components/barberCard";
 import imagemDeFundo from '../../assets/img-bg.jpg';
 
 export function Home() {
+
+   const navigationLinks = [
+    { label: "Serviços", path: "/servicos" },
+    { label: "Planos", path: "/planos" },
+    { label: "Sobre", path: "/sobre" },
+    { label: "Login", path: "/login" },
+  ];
+
   return (
     <div className="bg-gray-50 dark:bg-gray-950">
-      <Haeder title="LOGIN" link="/login" />
+      <Haeder navLinks={navigationLinks}/>
 
       <main className="h-screen overflow-y-scroll snap-y snap-mandatory scroll-pt-[68px] no-scrollbar">
         <section  style={{ backgroundImage: `url(${imagemDeFundo})` }} className="sticky top-0 h-screen z-10 flex items-center justify-center text-white text-center bg-cover bg-center">

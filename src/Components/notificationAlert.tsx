@@ -7,7 +7,7 @@ import Check from "@mui/icons-material/Check";
 import Close from "@mui/icons-material/Close";
 import { AspectRatio, LinearProgress } from "@mui/joy";
 
-// Definimos as propriedades que nosso alerta vai aceitar
+
 type NotificationProps = {
   open: boolean;
   onClose: () => void;

@@ -15,6 +15,12 @@ import { Haeder } from "../../Components/header";
 export function Sing() {
   const navigate = useNavigate();
 
+  const navigationLinks = [
+    { label: "Serviços", path: "/servicos" },
+    { label: "Planos", path: "/planos" },
+    { label: "Sobre", path: "/sobre" },
+    { label: "Login", path: "/login" },
+  ];
   const { values, handleChange, setFieldValue } = useForm({
     login: "",
     senha: "",
@@ -90,7 +96,7 @@ export function Sing() {
 
   return (
     <>
-      <Haeder title="Home" link="/"/> {/* Corrigi o nome aqui :) */}
+      <Haeder navLinks={navigationLinks} />{" "}
       <NotificationAlert {...notification} onClose={hideNotification} />
       <div className="grid grid-cols-1 lg:grid-cols-2 min-h-screen font-sans">
         {/* Coluna 1: Formulário */}
@@ -236,7 +242,12 @@ export function Sing() {
           </div>
         </div>
 
-        <AboutSection title="Comece sua Jornada de Estilo" subTitle="Mais que uma Barbearia, uma Experiência." description="Fundada em 2015, a BarberShop nasceu da paixão pela barbearia clássica e o desejo de criar um espaço onde homens pudessem não apenas cuidar do visual, mas também relaxar, conversar e se desconectar da rotina. Combinamos técnicas tradicionais com as últimas tendências para entregar um serviço de excelência." imgSrc="src/assets/img-login.jpg"/>
+        <AboutSection
+          title="Comece sua Jornada de Estilo"
+          subTitle="Mais que uma Barbearia, uma Experiência."
+          description="Fundada em 2015, a BarberShop nasceu da paixão pela barbearia clássica e o desejo de criar um espaço onde homens pudessem não apenas cuidar do visual, mas também relaxar, conversar e se desconectar da rotina. Combinamos técnicas tradicionais com as últimas tendências para entregar um serviço de excelência."
+          imgSrc="src/assets/img-login.jpg"
+        />
       </div>
     </>
   );

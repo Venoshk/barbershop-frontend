@@ -5,11 +5,12 @@ import { NotificationAlert } from "../../Components/NotificationAlert";
 import api from "../../services/api";
 import { useNotification } from "../../Hooks/useNotification";
 import { useForm } from "../../Hooks/useForm";
-import { Haeder } from "../../Components/header";
 import { AboutSection } from "../../Components/aboutSection";
 // ... outros imports
 
 export function Login() {
+
+
   const { values, handleChange } = useForm({
     login: "",
     senha: "",
@@ -21,19 +22,14 @@ export function Login() {
 
   const handleLoginSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // ... sua lógica de submit ...
     try {
       const response = await api.post("/auth/login", values);
       // ...
       const { token } = response.data;
       localStorage.setItem("token", token);
-      showNotification(
-        "success",
-        "Login Bem-sucedido!",
-        "Você será redirecionado para a home."
-      );
+
       setTimeout(() => {
-        navigate("/"); // Redireciona para a home
+        navigate("/dashboard"); 
       }, 2000);
     } catch (error: any) {
       const errorMessage = "Login ou senha inválidos.";
@@ -42,14 +38,10 @@ export function Login() {
   };
 
   return (
-    // O container principal agora é um grid de 2 colunas em telas médias (md) ou maiores
     <>
-      <Haeder title="Home" link="/"/>
 
       <main className=" grid grid-cols-1 md:grid-cols-2 min-h-screen w-full ">
-        {/* Coluna 1: O Formulário */}
         <div className="bg-gray-50 dark:bg-gray-900 flex flex-col justify-center items-center p-8">
-          {/* Adicione o componente de Alerta aqui */}
           <NotificationAlert
             open={notification.open}
             onClose={hideNotification}
@@ -116,7 +108,12 @@ export function Login() {
           </div>
         </div>
 
-        <AboutSection title="Acesse sua Conta" subTitle="Gerencie seus agendamentos, veja seu histórico e prepare-se para seu próximo visual." description="" imgSrc="src/assets/img-sing.jpg" />
+        <AboutSection
+          title="Acesse sua Conta"
+          subTitle="Gerencie seus agendamentos, veja seu histórico e prepare-se para seu próximo visual."
+          description=""
+          imgSrc="src/assets/img-sing.jpg"
+        />
       </main>
     </>
   );

@@ -3,13 +3,7 @@ import React from "react";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ChairIcon from "@mui/icons-material/Chair";
 import WifiIcon from "@mui/icons-material/Wifi";
-
-type AboutSection = {
-  title: string;
-  subTitle: string;
-  description: string;
-  imgSrc: string;
-};
+import type { AboutSection } from "../Interface/AboutSection";
 
 const FeatureItem = ({
   icon,

@@ -1,65 +1,127 @@
-import { useTheme } from "../contexts/ThemeContext";
-import { IconButton } from "@mui/material";
-import { Link } from "react-router-dom";
-import type { JSX } from "react/jsx-runtime";
+import { useState } from "react";
+import { useTheme } from "../Contexts/themeContext";
+import { Link, NavLink } from "react-router-dom";
 
-type HeaderProps = {
-  title: string;
-  link: string;
+// Ícones...
+import { IconButton } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+
+type NavLinkItem = {
+  label: string;
+  path: string;
 };
 
-export function Haeder({ title, link }: HeaderProps): JSX.Element {
+// 1. Atualize as props para receber 'onLogout'
+type HeaderProps = {
+  navLinks: NavLinkItem[];
+  onLogout: () => void; // A função de logout não retorna nada
+};
+
+// Remova a prop 'onChange' que não será mais usada
+export function Haeder({ navLinks, onLogout }: HeaderProps) {
   const { theme, toggleTheme } = useTheme();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+
+  const mobileLinkClassName = ({ isActive }: { isActive: boolean }) =>
+    `text-lg font-semibold transition-colors hover:text-[#7747ff] ${
+      isActive ? "text-[#7747ff]" : "text-gray-700 dark:text-gray-200"
+    }`;
 
   return (
-    <header className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
+    <header className="bg-transparent backdrop-blur-sm sticky top-0 z-50 shadow-sm">
       <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
-        {/* Link para a Home Page ao clicar no logo */}
         <Link
           to="/"
           className="text-xl font-bold text-gray-900 dark:text-white"
         >
           BarberShop
         </Link>
-        <div className="flex items-center gap-4">
-          {/* 4. Usando o componente Link em vez de <a> */}
-          <Link
-            to={link}
-            className="bg-gray-900 hover:bg-[#7747ff] hover:text-white text-center text-white dark:bg-white  p-2 w-40 rounded-sm text-base font-bold dark:text-gray-900 transition-colors "
-          >
-            {title}
-          </Link>
 
+        <div className="hidden md:flex items-center gap-6">
+          {navLinks.map((link) =>
+            link.label === "Sair" ? (
+              <button
+                key={link.label}
+                onClick={onLogout}
+                className="text-sm font-semibold transition-colors hover:text-[#7747ff] text-gray-600 dark:text-gray-300"
+              >
+                {link.label}
+              </button>
+            ) : (
+              <NavLink
+                key={link.label}
+                to={link.path}
+                className={({ isActive }) => `text-sm font-semibold transition-colors hover:text-[#7747ff] ${isActive ? 'text-[#7747ff]' : 'text-gray-600 dark:text-gray-300'}`}
+              >
+                {link.label}
+              </NavLink>
+            )
+          )}
           <IconButton
             onClick={toggleTheme}
-            color={theme === "dark" ? "warning" : "primary"}
+            color={theme === "dark" ? "primary" : "inherit"}
           >
-            {theme === "dark" ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="size-6"
-              >
-                <path d="M12 2.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM7.5 12a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM18.894 6.166a.75.75 0 0 0-1.06-1.06l-1.591 1.59a.75.75 0 1 0 1.06 1.061l1.591-1.59ZM21.75 12a.75.75 0 0 1-.75.75h-2.25a.75.75 0 0 1 0-1.5H21a.75.75 0 0 1 .75.75ZM17.834 18.894a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 1 0-1.061 1.06l1.59 1.591ZM12 18a.75.75 0 0 1 .75.75V21a.75.75 0 0 1-1.5 0v-2.25A.75.75 0 0 1 12 18ZM7.758 17.303a.75.75 0 0 0-1.061-1.06l-1.591 1.59a.75.75 0 0 0 1.06 1.061l1.591-1.59ZM6 12a.75.75 0 0 1-.75.75H3a.75.75 0 0 1 0-1.5h2.25A.75.75 0 0 1 6 12ZM6.697 7.757a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 0 0-1.061 1.06l1.59 1.591Z" />
-              </svg>
+            {theme === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
+          </IconButton>
+        </div>
+
+        {/* Botão do Menu Hambúrguer */}
+        <div className="md:hidden">
+          <IconButton onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? (
+              <CloseIcon className="dark:text-white" />
             ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="size-6"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M9.528 1.718a.75.75 0 0 1 .162.819A8.97 8.97 0 0 0 9 6a9 9 0 0 0 9 9 8.97 8.97 0 0 0 3.463-.69.75.75 0 0 1 .981.98 10.503 10.503 0 0 1-9.694 6.46c-5.799 0-10.5-4.7-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 0 1 .818.162Z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <MenuIcon className="dark:text-white" />
             )}
           </IconButton>
         </div>
       </nav>
+
+      {/* Painel do Menu Mobile */}
+      <div
+        className={`md:hidden ${
+          isMenuOpen ? "block" : "hidden"
+        } absolute top-full left-0 w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg`}
+      >
+        <div className="flex flex-col items-center gap-4 py-8">
+          {navLinks.map((link) =>
+            // 3. Mesma lógica condicional para o menu mobile
+            link.label === "Sair" ? (
+              <button
+                key={link.label}
+                onClick={() => {
+                  onLogout(); 
+                  setIsMenuOpen(false); // Fecha o menu
+                }}
+                className={mobileLinkClassName({ isActive: false })}
+              >
+                {link.label}
+              </button>
+            ) : (
+              <NavLink
+                key={link.label}
+                to={link.path}
+                onClick={() => setIsMenuOpen(false)}
+                className={mobileLinkClassName}
+              >
+                {link.label}
+              </NavLink>
+            )
+          )}
+          <div className="mt-4">
+            <IconButton
+              onClick={toggleTheme}
+              color={theme === "dark" ? "primary" : "inherit"}
+            >
+              {theme === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
+            </IconButton>
+          </div>
+        </div>
+      </div>
     </header>
   );
 }
