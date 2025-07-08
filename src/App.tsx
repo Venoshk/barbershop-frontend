@@ -10,6 +10,7 @@ import { Dashboard } from "./pages/Dashboard/dashboard";
 import { AccessDeniedPage } from "./pages/AccessDenied/accessDenied";
 import { RoleBasedRoute } from "./Components/roleBasedRoute";
 import { UserAppointments } from "./pages/UserAppointments/userAppointments";
+import { Reservations } from "./pages/Reservations/reservations";
 class App extends Component {
   render() {
     return (
@@ -33,6 +34,7 @@ class App extends Component {
           {/* Grupo de rotas que SÓ o ROLE_USER pode acessar */}
           <Route element={<RoleBasedRoute allowedRoles={['ROLE_USER']} />}>
             <Route path="/dashboard/reservas" element={<UserAppointments />} />
+            <Route path="/dashboard/nova/reserva" element={<Reservations />} />
           </Route>
 
           {/* Grupo de rotas que SÓ o ROLE_BARBER pode acessar */}

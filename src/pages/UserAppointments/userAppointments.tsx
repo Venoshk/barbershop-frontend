@@ -9,7 +9,7 @@ import type { Appointment } from "../../Interface/Appointment";
 import { CircularProgress } from "@mui/joy";
 import { AppointmentCard } from "../../Components/appointmentCard";
 import TabsBasic from "../../Components/tabs";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Tipagem para os dados do agendamento que vêm do backend
 
@@ -33,7 +33,8 @@ export function UserAppointments() {
   ];
 
   const nomePrincipal = user?.sub ? user.sub.split(".")[0] : "";
-  const nomeFormatado = nomePrincipal.charAt(0).toUpperCase() + nomePrincipal.slice(1);
+  const nomeFormatado =
+    nomePrincipal.charAt(0).toUpperCase() + nomePrincipal.slice(1);
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -102,25 +103,25 @@ export function UserAppointments() {
       <div className="hidden md:block">
         <Haeder navLinks={navigationLinks} onLogout={handleLogout} />
       </div>
-      <main className="container mx-auto p-6 sm:p-8 ">
-        <Typography
-          variant="h3"
-          component="h1"
-          className="font-bold text-gray-900 dark:text-white"
-        >
-          <strong>Meus Agendamentos</strong>
-        </Typography>
-        <Typography
-          variant="body1"
-          className="mt-1 text-gray-600 dark:text-gray-400"
-        >
-          Aqui está seu histórico dos seus horários <strong className="text-[#7747ff]">{nomeFormatado}</strong>.
-        </Typography>
+      <main className="container mx-auto p-6 sm:p-8 md:pb-8 pb-24 ">
+        <div className="p-6 rounded-lg bg-white flex flex-col gap-4 shadow-lg ">
+          <Typography variant="h4" component="h1">
+            <strong>Meus Agendamentos</strong>
+          </Typography>
+          <Typography
+            variant="body1"
+            className="mt-1 text-gray-600 dark:text-gray-950 sm:text-[12px]"
+          >
+            Aqui está seu histórico dos seus horários{" "}
+            <strong className="text-[#7747ff]">{nomeFormatado}</strong>.
+          </Typography>
+          
+          <Link className="w-full md:w-4/12 text-amber-50 dark:text-gray-300 bg-gray-950 rounded-md p-2 text-center font-bold" to={"/dashboard/nova/reserva"}>Nova Reserva</Link>
+        </div>
 
         {renderContent()}
-
-        <TabsBasic />
       </main>
+      <TabsBasic />
     </div>
   );
 }

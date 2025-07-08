@@ -1,7 +1,7 @@
 import { Form } from "../../Components/form";
 import { Input } from "../../Components/input";
 import { Link, useNavigate } from "react-router-dom";
-import { NotificationAlert } from "../../Components/NotificationAlert";
+import { NotificationAlert } from "../../Components/notificationAlert";
 import api from "../../services/api";
 import { useNotification } from "../../Hooks/useNotification";
 import { useForm } from "../../Hooks/useForm";

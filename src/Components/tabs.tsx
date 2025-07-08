@@ -35,7 +35,7 @@ export default function BottomNav() {
         display: { xs: "flex", sm: "none" },
       }}
     >
-      <TabList sx={{ "--List-gap": "8px", justifyContent: "center" }}>
+      <TabList sx={{ "--List-gap": "8px", justifyContent: "center", fontSize: 13}}>
         <Tab
           orientation="vertical"
           component={Link}

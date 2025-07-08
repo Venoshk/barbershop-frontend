@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-type Severity = 'success' | 'danger';
+type Severity = 'success' | 'danger' | 'warning';
 
 const initialState = {
   open: false,

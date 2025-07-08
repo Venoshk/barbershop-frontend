@@ -1,25 +1,34 @@
+import type { Barber } from "../Interface/Barber"; // Supondo que você tenha esta interface
 
-type BarberCardProps = {
-  imageUrl: string;
-  name: string;
-  specialty: string;
-};
+// 1. Adicione as novas props
+interface BarberCardProps {
+  barber: Barber;
+  onClick: () => void;
+  isSelected: boolean;
+}
 
-export function BarberCard({ imageUrl, name, specialty }: BarberCardProps) {
+export function BarberCard({ barber, onClick, isSelected }: BarberCardProps) {
+  // 2. Lógica para aplicar a classe de seleção
+  const selectionClasses = isSelected 
+    ? 'ring-2 ring-offset-2 ring-offset-gray-100 dark:ring-offset-gray-900 ring-[#7747ff]' 
+    : 'shadow-md';
+
   return (
-    <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg text-center flex flex-col items-center transition-transform hover:scale-105 duration-300">
+    <div
+      onClick={onClick} // 3. Adiciona o evento de clique
+      className={`bg-white dark:bg-gray-800 rounded-lg overflow-hidden text-center transform hover:scale-105 transition-all duration-300 cursor-pointer ${selectionClasses}`}
+    >
       <img
-        src={imageUrl}
-        alt={`Foto de ${name}`}
-        // Classes para criar a imagem circular
-        className="w-32 h-32 rounded-full object-cover border-4 border-white dark:border-gray-700 shadow-md"
+        src={barber.imageUrl}
+        alt={barber.nome}
+        className="w-full h-56 object-cover"
       />
-      <h4 className="mt-6 text-xl font-bold text-gray-900 dark:text-white">
-        {name}
-      </h4>
-      <p className="mt-2 text-base text-[#7747ff] font-semibold">
-        {specialty}
-      </p>
+      <div className="p-4">
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white">{barber.nome}</h3>
+        <p className="mt-1 text-sm font-semibold text-[#7747ff]">
+          {barber.nome}
+        </p>
+      </div>
     </div>
   );
 }

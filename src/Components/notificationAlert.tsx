@@ -5,13 +5,13 @@ import Typography from "@mui/joy/Typography";
 import Box from "@mui/joy/Box";
 import Check from "@mui/icons-material/Check";
 import Close from "@mui/icons-material/Close";
-import { AspectRatio, LinearProgress } from "@mui/joy";
-
+import Warning from '@mui/icons-material/Warning';
+import { AspectRatio } from "@mui/joy";
 
 type NotificationProps = {
   open: boolean;
   onClose: () => void;
-  severity: "success" | "danger";
+  severity: "success" | "danger" | "warning";
   title: string;
   message: string;
 };
@@ -57,10 +57,11 @@ export function NotificationAlert({
             <div>
               {severity === "success" ? (
                 <Check />
+              ) : severity === "warning" ? ( // Adiciona a nova verificação aqui
+                <Warning />
               ) : (
-                <Close/>
+                <Close /> // Este é o caso padrão (para 'danger' ou outros)
               )}
-            
             </div>
           </AspectRatio>
         }
@@ -81,19 +82,6 @@ export function NotificationAlert({
           <Typography level="title-lg">{title}</Typography>
           <Typography level="body-sm">{message}</Typography>
         </div>
-        
-        <LinearProgress
-          variant="solid"
-          color={severity}
-          value={40}
-          sx={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            borderRadius: 0,
-          }}
-        />
       </Alert>
     </Box>
   );

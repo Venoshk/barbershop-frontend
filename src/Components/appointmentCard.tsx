@@ -51,7 +51,7 @@ export function AppointmentCard({ appointment }: { appointment: Appointment }) {
               variant="body1"
               className="text-gray-700 dark:text-gray-900"
             >
-              {formattedDate}
+              {appointment.diaDaSemana}
             </Typography>
           </div>
           <div className="flex items-center gap-2">
