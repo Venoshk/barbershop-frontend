@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../Hooks/useAuth";
+import { useAuth } from "../Contexts/authContext";
 
 // As props deste componente incluirão um array de roles permitidas
 type RoleBasedRouteProps = {

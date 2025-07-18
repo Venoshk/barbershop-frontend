@@ -1,15 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
-import { useAuth } from '../../Hooks/useAuth';
+import { useAuth } from '../../Contexts/authContext';
 import TabsBasic from '../../Components/tabs';
 import { Haeder } from '../../Components/header';
 // import { useAuth } from '../../Hooks/useAuth'; 
 export function Dashboard() {
   const navigate = useNavigate();
-  const { user } = useAuth(); 
+  const { user, logout} = useAuth(); 
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    logout();
     navigate('/login');
   };
 

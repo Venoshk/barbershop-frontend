@@ -48,8 +48,8 @@ export default function BottomNav() {
         <Tab
           orientation="vertical"
           component={Link}
-          to="/dashboard/reservas"
-          value="/dashboard/reservas"
+          to="/dashboard/agendamentos"
+          value="/dashboard/agendamentos"
         >
           <ListAlt />
           Minhas Reservas

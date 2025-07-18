@@ -1,28 +1,25 @@
 import { useState, useEffect } from "react";
 import { Haeder } from "../../Components/header";
 import api from "../../services/api";
-import { useAuth } from "../../Hooks/useAuth";
+import { useAuth } from "../../Contexts/authContext";
 
 // Ícones do Material-UI para dar um toque visual
-import { Typography, Box, Alert } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import type { Appointment } from "../../Interface/Appointment";
 import { CircularProgress } from "@mui/joy";
 import { AppointmentCard } from "../../Components/appointmentCard";
 import TabsBasic from "../../Components/tabs";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // Tipagem para os dados do agendamento que vêm do backend
 
 export function UserAppointments() {
-  const { user } = useAuth();
-  const navigate = useNavigate();
+  const { isAuthenticated, logout, user } = useAuth();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
+    logout();
   };
 
   const navigationLinks = [
@@ -37,24 +34,33 @@ export function UserAppointments() {
     nomePrincipal.charAt(0).toUpperCase() + nomePrincipal.slice(1);
 
   useEffect(() => {
+    const controller = new AbortController();
+
+    setIsLoading(true);
     const fetchAppointments = async () => {
-      if (!user) return;
+      if (!isAuthenticated) return;
 
       try {
-        const response = await api.get(`/reservas/suas/${user.userId}`);
+        const response = await api.get(`/reservas/minhas-reservas/${user?.userId}`, {
+          signal: controller.signal 
+        });
         setAppointments(response.data);
-      } catch (err) {
-        console.error("Erro ao buscar agendamentos:", err);
-        setError(
-          "Não foi possível carregar seus agendamentos. Tente novamente mais tarde."
-        );
+      } catch (err:any) {
+       if (err.name !== 'CanceledError') {
+          console.error("Erro ao buscar agendamentos:");
+          
+        }
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchAppointments();
-  }, [user]);
+
+    return () => {
+      controller.abort();
+    }
+  }, [isAuthenticated]);
 
   const renderContent = () => {
     if (isLoading) {
@@ -62,14 +68,6 @@ export function UserAppointments() {
         <Box className="flex justify-center items-center h-64">
           <CircularProgress />
         </Box>
-      );
-    }
-
-    if (error) {
-      return (
-        <Alert severity="error" className="mt-4">
-          {error}
-        </Alert>
       );
     }
 
@@ -115,8 +113,13 @@ export function UserAppointments() {
             Aqui está seu histórico dos seus horários{" "}
             <strong className="text-[#7747ff]">{nomeFormatado}</strong>.
           </Typography>
-          
-          <Link className="w-full md:w-4/12 text-amber-50 dark:text-gray-300 bg-gray-950 rounded-md p-2 text-center font-bold" to={"/dashboard/nova/reserva"}>Nova Reserva</Link>
+
+          <Link
+            className="w-full md:w-4/12 text-amber-50 dark:text-gray-300 bg-gray-950 rounded-md p-2 text-center font-bold"
+            to={"/dashboard/agendar"}
+          >
+            Nova Reserva
+          </Link>
         </div>
 
         {renderContent()}

@@ -9,8 +9,6 @@ import { AboutSection } from "../../Components/aboutSection";
 // ... outros imports
 
 export function Login() {
-
-
   const { values, handleChange } = useForm({
     login: "",
     senha: "",
@@ -24,13 +22,16 @@ export function Login() {
     event.preventDefault();
     try {
       const response = await api.post("/auth/login", values);
-      // ...
-      const { token } = response.data;
-      localStorage.setItem("token", token);
 
-      setTimeout(() => {
-        navigate("/dashboard"); 
-      }, 2000);
+      if (response) {
+        const { token } = response.data;
+        localStorage.setItem("token", token);
+
+        setTimeout(() => {
+          navigate("/dashboard");
+
+        }, 200)
+      }
     } catch (error: any) {
       const errorMessage = "Login ou senha inválidos.";
       showNotification("danger", "Falha na Autenticação", errorMessage);
@@ -39,7 +40,6 @@ export function Login() {
 
   return (
     <>
-
       <main className=" grid grid-cols-1 md:grid-cols-2 min-h-screen w-full ">
         <div className="bg-gray-50 dark:bg-gray-900 flex flex-col justify-center items-center p-8">
           <NotificationAlert

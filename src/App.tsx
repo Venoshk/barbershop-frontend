@@ -1,57 +1,55 @@
-import { Component } from "react";
-import "./App.css";
+// Em App.js
+
 import { Route, Routes } from "react-router-dom";
-import { Login } from "./pages/Login/login";
-import { Sing } from "./pages/Sign/sing";
-import { Home } from "./pages/Home/home";
+import { AuthProvider } from "./Contexts/authContext";
 import { ThemeProvider } from "./Contexts/themeContext";
 import { ProtectedRoute } from "./Components/protectedRoute";
+
+// Suas páginas
+import { Home } from "./pages/Home/home";
+import { Login } from "./pages/Login/login";
+import { Sing } from "./pages/Sign/sing";
 import { Dashboard } from "./pages/Dashboard/dashboard";
-import { AccessDeniedPage } from "./pages/AccessDenied/accessDenied";
-import { RoleBasedRoute } from "./Components/roleBasedRoute";
-import { UserAppointments } from "./pages/UserAppointments/userAppointments";
 import { Reservations } from "./pages/Reservations/reservations";
-class App extends Component {
-  render() {
-    return (
-      <ThemeProvider>
+import { UserAppointments } from "./pages/UserAppointments/userAppointments";
+import { AccessDeniedPage } from "./pages/AccessDenied/accessDenied";
+// ... outras páginas
+
+function App() {
+  return (
+    <ThemeProvider>
+      <AuthProvider>
         <Routes>
-        {/* --- Rotas Públicas --- */}
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/cadastro" element={<Sing />} />
-        <Route path="/acesso-negado" element={<AccessDeniedPage />} />
+          {/* =================================================== */}
+          {/* 1. ROTAS PÚBLICAS - FORA DO PROTECTEDROUTE      */}
+          {/* =================================================== */}
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/cadastro" element={<Sing />} />
+          <Route path="/acesso-negado" element={<AccessDeniedPage />} />
 
-
-        {/* --- Rotas Protegidas por Autenticação --- */}
-        <Route element={<ProtectedRoute />}>
-          
-          {/* Rota genérica para usuários logados */}
-          <Route path="/dashboard" element={<Dashboard />} />
-          
-          {/* --- ROTAS PROTEGIDAS POR ROLE --- */}
-          
-          {/* Grupo de rotas que SÓ o ROLE_USER pode acessar */}
-          <Route element={<RoleBasedRoute allowedRoles={['ROLE_USER']} />}>
-            <Route path="/dashboard/reservas" element={<UserAppointments />} />
-            <Route path="/dashboard/nova/reserva" element={<Reservations />} />
+          {/* =================================================== */}
+          {/* 2. ROTAS PROTEGIDAS - DENTRO DO PROTECTEDROUTE    */}
+          {/* =================================================== */}
+          <Route element={<ProtectedRoute />}>
+            {/* Todas as rotas aqui dentro exigirão login */}
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard/agendamentos" element={<UserAppointments />} />
+            <Route path="/dashboard/agendar" element={<Reservations />} />
+            
+            {/* Você pode aninhar outras verificações aqui, como as de Role */}
+            {/* <Route element={<RoleBasedRoute allowedRoles={['ROLE_ADMIN']} />}>
+               <Route path="/admin/painel" element={<AdminPanel />} />
+            </Route> 
+            */}
           </Route>
-
-          {/* Grupo de rotas que SÓ o ROLE_BARBER pode acessar */}
-    
-
-          {/* Exemplo de uma rota que tanto BARBER quanto ADMIN podem acessar */}
-          {/* <Route element={<RoleBasedRoute allowedRoles={['ROLE_BARBER', 'ROLE_ADMIN']} />}>
-            <Route path="/gerenciar-horarios" element={<ManageHoursPage />} />
-          </Route> */}
-
-        </Route>
-        
-        <Route path="*" element={<p>Página não encontrada!</p>} />
-      </Routes>
-      </ThemeProvider>
-    );
-  }
+          
+          {/* Rota para páginas não encontradas */}
+          <Route path="*" element={<p>Página não encontrada!</p>} />
+        </Routes>
+      </AuthProvider>
+    </ThemeProvider>
+  );
 }
 
 export default App;
