@@ -2,11 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import { useNotification } from "../../Hooks/useNotification";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
-// Nossos componentes reutilizáveis e do MUI
+
+// componentes reutilizáveis e do MUI
 import { Haeder } from "../../Components/header";
 import { BarbersList } from "../../Components/barbersList";
 import { CutsList } from "../../Components/cutsList";
@@ -16,12 +14,13 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 // Interfaces
-import type { Barber } from "../../Interface/Barber"; // Supondo que tenha 'id'
-import type { Cut } from "../../Interface/Cut"; // Supondo que tenha 'id'
+import type { Barber } from "../../Interface/Barber"; 
+import type { Cut } from "../../Interface/Cut"; 
 import { useAuth } from "../../Contexts/authContext";
 import { NotificationAlert } from "../../Components/notificationAlert";
 import { ReservationSummary } from "../../Components/reservationSummary";
@@ -44,7 +43,7 @@ export function Reservations() {
   const [cuts, setCuts] = useState<Cut[]>([]);
   const [selectionMade, setSelectionMade] = useState(false);
   const [reservationData, setReservationData] = useState<any>({
-    codCliente: null, // Comece com null
+    codCliente: null, 
     codCorte: null,
     codBarbeiro: null,
     codFluxo: 1,
@@ -57,8 +56,7 @@ export function Reservations() {
     (b) => b.id === reservationData.codBarbeiro
   );
   const selectedCut = cuts.find((c) => c.id === reservationData.codCorte);
-  const { notification, showNotification, hideNotification } =
-    useNotification();
+  const { notification, showNotification, hideNotification } = useNotification();
   const navigate = useNavigate();
 
   const availableTimeSlots = Array.from(new Array(24 * 2))
@@ -183,7 +181,6 @@ export function Reservations() {
           );
         }
       } else {
-        // Erro de rede ou o servidor não pôde ser alcançado
         showNotification(
           "danger",
           "Erro de Conexão",

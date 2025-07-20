@@ -41,8 +41,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-// 5. Crie o hook customizado para consumir o contexto
-// Agora, este é o único 'useAuth' que seus componentes usarão
+
 export const useAuth = () => {
   return useContext(AuthContext);
 };
